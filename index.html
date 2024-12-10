@@ -1,0 +1,241 @@
+<!DOCTYPE html> 
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios Web para Geolocalización, Clima y Estadísticas</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            text-align: justify;
+        }
+
+        header {
+            background-color: #34495e;
+            color: #ecf0f1;
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+        }
+
+        header nav ul li {
+            margin: 0 15px;
+        }
+
+        header nav ul li a {
+            color: #ecf0f1;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        header nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        section {
+            margin: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .hero {
+            position: relative;
+            height: 75vh;
+            background-image: url('imagenes/fondo.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .hero #visitCount {
+            display: block;
+            margin-top: 10px;
+            font-size: 1.5rem;
+        }
+
+        footer {
+            background-color: #34495e;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+        }
+
+        #map {
+            width: 100%; /* Ancho del mapa al 100% del contenedor */
+            height: 400px; /* Altura fija del mapa */
+            margin: 10px 0; /* Opcional: margen superior e inferior */
+            border: 1px solid #ccc; /* Opcional: bordes para mejor visualización */
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#hero">Inicio</a></li>
+                <li><a href="#services">Servicios</a></li>
+                <li><a href="#realtime">Tiempo Real</a></li>
+                <li><a href="#downloads">Recursos</a></li>
+                <li><a href="#form-section">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <h1>Servicios Web</h1>
+    </section>
+
+    <!-- Sección de Servicios -->
+    <section id="services">
+        <h2>Servicios Web</h2>
+        <h3>Ubicación Satelital</h3>
+        <p>Información detallada sobre servicios de ubicación.</p>
+        <p><a href="https://www.ejemplo.com" target="_blank">Para más información, visita</a></p>
+        <h3>Cartografía</h3>
+        <p>Información detallada sobre servicios de cartografía.</p>
+        <img src="imagenes/cartografia.png" alt="Ejemplo de cartografía">
+        <p><a href="https://www.ejemplo.com" target="_blank">Para más información, visita</a></p>
+        <h3>Estado del Clima</h3>
+        <p>Información detallada sobre servicios de clima.</p>
+        <img src="imagenes/clima.png" alt="Ejemplo de clima">
+        <p><a href="https://www.ejemplo.com" target="_blank">Para más información, visita</a></p>
+        <h3>Contador de Visitas</h3>
+        <p>Información detallada sobre el contador de visitas.</p>
+    </section>
+
+    <!-- Sección en Tiempo Real -->
+    <section id="realtime">
+        <h2>Servicios Web en Tiempo Real</h2>
+        <div id="map"></div>
+        <div id="weather">
+            <h3>Estado del Clima</h3>
+            <p id="location">Ubicación: Cargando...</p>
+            <p id="temperature">Temperatura: Cargando...</p>
+            <p id="condition">Condición: Cargando...</p>
+        </div>
+        <div id="counter">
+            <h3>Contador de Visitas</h3>
+            <p>La página ha sido visitada <span id="visitCountRealtime">0</span> veces.</p>
+        </div>
+    </section>
+
+    <!-- Recursos Multimedia -->
+    <section id="downloads">
+        <h2>Recursos Multimedia y Documentos de Interés</h2>
+        <p>Los siguientes archivos están disponibles para su descarga, proporcionando ejemplos y documentos científicos relacionados con los servicios web de geolocalización y clima:</p>
+        <ul>
+            <li><a href="/downloads/infografia.png" class="download-link" download>Descargar infografia sobre servicios web</a></li>
+            <li><a href="/downloads/Capitulo.pdf" class="download-link" download>Descargar documento PDF sobre servicios web</a></li>
+        </ul>
+    </section>
+
+    <!-- Formulario de Contacto -->
+    <section id="form-section">
+        <h2>Formulario de Contacto</h2>
+        <p>Contáctanos si tienes dudas del tema y nosotros intentaremos ayudarte.</p>
+        <form action="server-side-script.php" method="POST">
+            <label for="name">Nombre Completo:</label>
+            <input type="text" id="name" name="name" required><br><br>
+    
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" required><br><br>
+    
+            <label for="service">Servicio de Interés:</label>
+            <select id="service" name="service">
+                <option value="ubicacion">Ubicación Satelital</option>
+                <option value="clima">Clima</option>
+                <option value="contador">Contador de Vistas</option>
+            </select><br><br>
+    
+            <label for="message">Mensaje:</label><br>
+            <textarea id="message" name="message" rows="4" cols="50" required></textarea><br><br>
+    
+            <button type="submit">Enviar Mensaje</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        By Tese
+    </footer>
+
+    <!--Script-->
+    <script>
+        function initMap(lat, lon) {
+            const map = L.map('map').setView([lat, lon], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            L.marker([lat, lon]).addTo(map)
+                .bindPopup('Ecatepec, México')
+                .openPopup();
+        }
+
+        async function fetchWeather() {
+            const lat = 19.511017312729066; 
+            const lon = -99.04058981641735; 
+            try {
+                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=8b6921d298d6604cf3b59d11d6ed0724`);
+                const data = await response.json();
+                document.getElementById('location').textContent = `Ubicación: Ecatepec, México`;
+                document.getElementById('temperature').textContent = `Temperatura: ${data.main.temp} °C`;
+                document.getElementById('condition').textContent = `Condición: ${data.weather[0].description}`;
+            } catch (error) {
+                console.error('Error al obtener el clima:', error);
+            }
+        }
+
+        function updateVisitCount() {
+            let visitCount = localStorage.getItem('visitCount');
+            if (!visitCount) {
+                visitCount = 0;
+            }
+            visitCount++;
+            localStorage.setItem('visitCount', visitCount);
+            document.getElementById('visitCountRealtime').textContent = visitCount;
+        }
+
+        function init() {
+            const defaultLat = 19.511017312729066; 
+            const defaultLon = -99.04058981641735; 
+            initMap(defaultLat, defaultLon);
+            fetchWeather();
+            updateVisitCount();
+        }
+
+        window.onload = function() {
+            init();
+        };
+    </script>
+</body>
+</html>
